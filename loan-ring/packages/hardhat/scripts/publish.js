@@ -44,14 +44,14 @@ function publishContract(contractName, networkName) {
     //   `${publishDir}/${contractName}.address.js`,
     //   `module.exports = "${contract.address}";`
     // );
-    // fs.writeFileSync(
-    //   `${publishDir}/${contractName}.abi.js`,
-    //   `module.exports = ${JSON.stringify(contract.abi, null, 2)};`
-    // );
-    // fs.writeFileSync(
-    //   `${publishDir}/${contractName}.bytecode.js`,
-    //   `module.exports = "${contract.bytecode}";`
-    // );
+    fs.writeFileSync(
+      `${publishDir}/${contractName}.abi.js`,
+      `module.exports = ${JSON.stringify(contract.abi, null, 2)};`
+    );
+    fs.writeFileSync(
+      `${publishDir}/${contractName}.bytecode.js`,
+      `module.exports = "${contract.bytecode}";`
+    );
 
     return true;
   } catch (e) {

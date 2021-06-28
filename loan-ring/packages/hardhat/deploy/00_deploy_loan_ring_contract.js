@@ -5,10 +5,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
   const amount = ethers.utils.parseEther(".01");
+  const addresses = [ethers.Wallet.createRandom().address]; // test address
   await deploy("LoanRingContract", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    args: ["Long Ring Contract", amount, "ETH"],
+    args: ["Long Ring Contract", amount, "ETH", addresses],
     log: true,
   });
 

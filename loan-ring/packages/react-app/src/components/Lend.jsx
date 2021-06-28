@@ -14,14 +14,6 @@ const { Option } = Select;
 const { Step } = Steps;
 const { Header, Footer, Sider, Content } = Layout;
 
-const typeMarks = ["One time purchase", "Subscription (monthly)", "Subscription (daily)"];
-
-const timeMarks = {
-  2: "Standard",
-  1: "Fast",
-  0: "Instant",
-};
-
 export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
   const [tokens, setTokens] = useState([]);
   const [currentStep, setCurrentStep] = useState(-1);
@@ -54,7 +46,15 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
 
     const amount = ethers.utils.parseEther(params.amount);
 
-    let contract = await factory.deploy(params.purpose, amount, params.coins.join(","));
+    const coins = (params.coins || ["ETH"]).join(",");
+
+    const addresses = [];
+    for (let i in params.companies) {
+      const w = ethers.Wallet.createRandom();
+      addresses.push(w.address);
+    }
+
+    let contract = await factory.deploy(params.purpose, amount, coins, addresses);
 
     console.log("address", contract.address);
     setDeployedAddress(contract.address);

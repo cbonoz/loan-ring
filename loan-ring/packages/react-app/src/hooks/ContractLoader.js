@@ -103,7 +103,16 @@ export default function useContractLoader(providerOrSigner, config = {}) {
               config.customAddresses && Object.keys(config.customAddresses).includes(contractName)
                 ? config.customAddresses[contractName]
                 : combinedContracts[contractName].address;
-            accumulator[contractName] = new ethers.Contract(_address, combinedContracts[contractName].abi, signer);
+
+            const newContract = new ethers.Contract(_address, combinedContracts[contractName].abi, signer);
+            try {
+              newContract.bytecode = require(`../contracts/${contractName}.bytecode.js`);
+              const abi = require(`../contracts/${contractName}.abi.js`);
+              newContract.abi = abi;
+            } catch (e) {
+              console.log(e);
+            }
+            accumulator[contractName] = newContract;
             return accumulator;
           }, {});
           if (active) setContracts(newContracts);

@@ -15,11 +15,14 @@ contract LoanRingContract is Ownable {
   string public purpose;
   int public amount;
   string public supportedTokens;
+  address[] public addresses;
 
-  constructor(string memory _purpose, int _amount, string memory _supportedTokens) public {
+
+  constructor(string memory _purpose, int _amount, string memory _supportedTokens, address[] memory _addresses) public {
     purpose = _purpose;
     amount = _amount;
     supportedTokens = _supportedTokens;
+    addresses = _addresses;
   }
 
   function setPurpose(string memory newPurpose) public onlyOwner {
