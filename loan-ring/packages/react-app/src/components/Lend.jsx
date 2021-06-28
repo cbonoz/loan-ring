@@ -26,19 +26,20 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
   const [tokens, setTokens] = useState([]);
   const [currentStep, setCurrentStep] = useState(-1);
   const [params, setParams] = useState({
-    speed: 2,
     amount: undefined,
-    coins: [],
     companies: [],
     purpose: "",
-    type: "Subscription (daily)",
   });
   const [deployedAddress, setDeployedAddress] = useState();
   const contracts = useContractLoader(provider);
 
   const adjustStep = async offset => {
     const nextStep = currentStep + offset;
-    if (nextStep == 2) {
+    if (nextStep === 0) {
+      if (params.companies.length === 0) {
+        return;
+      }
+    } else if (nextStep == 2) {
       await deploy();
       return;
     }
@@ -60,16 +61,22 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
     setCurrentStep(2);
   };
 
+  const { companies } = params;
+
   const getBody = () => {
     switch (currentStep) {
       case 0:
         return (
           <div>
-            <p>Enter the description for the payment</p>
+            <h1>Selected ({companies.length}):</h1>
+            {companies.map((x, i) => {
+              return <li key={i}>{x.title || JSON.stringify(x)}</li>;
+            })}
+            <p>Enter the name for the loan.</p>
             <TextArea
               showCount
-              rows={4}
-              placeholder="Payment purpose"
+              rows={1}
+              placeholder="Loan purpose"
               value={params.purpose}
               onChange={e => {
                 const newParams = { ...params, purpose: e.target.value };
@@ -86,32 +93,8 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               onChange={e => setParams({ ...params, amount: e.target.value })}
             />
             <br />
-            <p>Payment details:</p>
-            <Select defaultValue={params.type} style={{ width: 240 }} onChange={type => setParams({ ...params, type })}>
-              {typeMarks.map((x, i) => {
-                return (
-                  <Option key={x} value={x}>
-                    {x}
-                  </Option>
-                );
-              })}
-            </Select>
-            <Select
-              defaultValue={timeMarks[params.speed]}
-              style={{ width: 120 }}
-              onChange={speed => setParams({ ...params, speed })}
-            >
-              {Object.keys(timeMarks).map((x, i) => {
-                return (
-                  <Option key={x} value={x}>
-                    {timeMarks[x]}
-                  </Option>
-                );
-              })}
-            </Select>
-            <br />
-            <br />
-            <p>Allowed currencies:</p>
+            <p>Loan details:</p>
+            {/* <p>Allowed currencies:</p>
             <Select
               mode="multiple"
               allowClear
@@ -123,7 +106,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               {tokens.map(t => {
                 return <Option key={t.symbol}>{t.symbol}</Option>;
               })}
-            </Select>
+            </Select> */}
 
             {/* <Slider marks={coinMarks} step={10} defaultValue={37} /> */}
           </div>
@@ -133,7 +116,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
         const keys = Object.keys(params);
         return (
           <div>
-            <h1>Preview Payment:</h1>
+            <h1>Preview Loan:</h1>
             {keys.map((k, i) => {
               return (
                 <p key={i}>
@@ -144,7 +127,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
           </div>
         );
       case 2:
-        const payUrl = `${window.location.origin}/send?payment=${deployedAddress}`;
+        const payUrl = `${window.location.origin}/send?loan=${deployedAddress}`;
         return (
           <div>
             <h1>Contract Created!</h1>
@@ -152,7 +135,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               <b>{deployedAddress}</b>
             </p>
             <p>
-              Payment url:{" "}
+              Loan url:{" "}
               <a href={payUrl} target="_blank">
                 {payUrl}
               </a>
@@ -162,8 +145,28 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
     }
   };
 
+  const setCompanies = companies => {
+    const ids = companies.map(x => x.id);
+    const addedCompany = companies[companies.length - 1];
+    const matchingId = ids.indexOf(addedCompany.id);
+    if (matchingId !== companies.length - 1) {
+      // occurs earlier in list.
+      companies = companies.filter(x => addedCompany.id !== x.id);
+    }
+    console.log("companies", companies, matchingId, addedCompany.id);
+    setParams({ ...params, companies });
+  };
+
+  const onReady = () => {
+    adjustStep(1);
+  };
+
   if (currentStep === -1) {
-    return <Discover />;
+    return (
+      <div className="container">
+        <Discover companies={params.companies} setCompanies={setCompanies} onReady={onReady} />;
+      </div>
+    );
   }
 
   return (
@@ -174,19 +177,19 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
           <br />
           <br />
           <Steps direction="vertical" current={currentStep}>
-            <Step title="Create Payment" description="What do you want to collect?" />
-            <Step title="Deploy" description="Register invoice" />
-            <Step title="Complete" description="Use this contract to collect payment" />
+            <Step title="Create Loan" description="How much do you want to lend?" />
+            <Step title="Deploy" description="Initiate loan" />
+            <Step title="Complete" description="Loan will be granted to first party" />
           </Steps>
           ,
         </Sider>
         <Layout>
           <Header>
-            <h1>Create Payment Request</h1>
+            <h1>Create new loan</h1>
           </Header>
           <Content className="content">{getBody()}</Content>
           <Footer>
-            {currentStep != 0 && <Button onClick={() => adjustStep(-1)}>Back</Button>}
+            <Button onClick={() => adjustStep(-1)}>Back</Button>
             {currentStep != 2 && (
               <Button onClick={() => adjustStep(1)}>
                 {currentStep == 2 ? "Done" : currentStep == 1 ? "Deploy" : "Next"}

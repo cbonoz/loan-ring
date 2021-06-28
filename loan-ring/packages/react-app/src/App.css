@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .content {
   padding: 25px;
 }
@@ -30,6 +34,55 @@
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
+}
+
+.header-steps {
+  height: 300px;
+  padding-top: 100px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.card-image,
+.ant-card {
+  width: 300px !important;
+}
+
+.ant-card {
+  display: inline-grid;
+}
+
+.dropzone {
+  border: 1px dotted lightgray;
+  padding-top: 20px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.ant-input {
+  /* max-width: 400px; */
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ant-input-group-wrapper {
+  margin: 10px;
+}
+
+.ant-layout-header {
+  background: white !important;
+}
+
+.ant-btn,
+.ant-btn-circle {
+  /* padding: 10px 20px 10px 20px !important; */
+  margin: 10px;
+}
+
+.nav-logo {
+  height: 25px;
 }

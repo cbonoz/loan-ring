@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Fuse from "fuse.js";
 import Modal from "antd/lib/modal/Modal";
+import { Badge } from "antd";
+
 import { Input } from "antd";
 import CompanyCard from "./CompanyCard";
 import { EXAMPLE_CARDS } from "../util";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
-function Discover(props) {
+function Discover({ companies, setCompanies, onReady }) {
   const [cards, setCards] = useState(EXAMPLE_CARDS);
   const [query, setQuery] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,7 +21,7 @@ function Discover(props) {
     }
 
     const fuse = new Fuse(cards, {
-      keys: ["name", "description"],
+      keys: ["title", "description"],
     });
 
     const results = fuse.search(query);
@@ -28,18 +31,24 @@ function Discover(props) {
 
   return (
     <div className="content">
-      <h2>Discover Projects</h2>
+      <h2>
+        Discover Projects{" "}
+        <Badge count={companies.length} onClick={onReady}>
+          <ShoppingCartOutlined style={{ fontSize: "24px" }} />
+        </Badge>
+      </h2>
       <Input
         addonBefore={"Search"}
         placeholder="Enter company name"
         value={query}
         onChange={e => setQuery(e.target.value)}
       />
+
       <br />
       {cards.map((x, i) => {
         return (
-          <span key={i}>
-            <CompanyCard data={x} />
+          <span className="cursor-pointer" key={i}>
+            <CompanyCard data={x} onClick={x => setCompanies([...companies, x])} />
           </span>
         );
       })}
