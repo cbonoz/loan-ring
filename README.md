@@ -2,9 +2,9 @@
     <img src='./img/logo.png' width=400/>
 </p>
 
-## Loanring
+## LoanRing
 
-Loan ring is an application that increases the utility of static cryptocurrency
+LoanRing is an application that increases the utility of static cryptocurrency by offering automated loans to businesses.
 
 Built for hack.money 2021.
 
@@ -59,6 +59,7 @@ Changes should be present/accessible the next time the contract is deployed.
 * https://github.com/NexusMutual/smart-contracts/blob/feature/distributor-relocation/docs/DISTRIBUTOR.md (solidity)
 * https://github.com/aave/protocol-v2#getting-started (solidity)
 * https://github.com/liquity/dev/blob/main/README.md (solidity)
+* https://github.com/BitGo/BitGoJS/tree/master/modules/core
 
 
 

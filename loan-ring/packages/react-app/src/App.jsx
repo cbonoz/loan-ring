@@ -8,6 +8,8 @@ import "./App.css";
 import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
 import About from "./components/About";
 import { Lend } from "./components/Lend";
+import BusinessPage from "./components/BusinessPage";
+
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
 import {
@@ -22,7 +24,8 @@ import {
 } from "./hooks";
 import { capitalize } from "./util";
 // import Hints from "./Hints";
-import { ExampleUI, Hints, Subgraph } from "./views";
+import { Hints } from "./views";
+import { init } from "./util/bgo";
 
 const { ethers } = require("ethers");
 /*
@@ -111,6 +114,11 @@ function App(props) {
   const gasPrice = useGasPrice(targetNetwork, "fast");
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userSigner = useUserSigner(injectedProvider, localProvider);
+
+  useEffect(() => {
+    // Init bitgo.
+    init();
+  }, []);
 
   useEffect(() => {
     async function getAddress() {
@@ -318,7 +326,7 @@ function App(props) {
       </div>
     );
   }
-  const ROUTES = ["lend", "insure", "collection", "wallet", "about", "preview"];
+  const ROUTES = ["for_lenders", "for_businesses", "collection", "wallet", "about", "preview"];
 
   return (
     <div className="App">
@@ -358,7 +366,7 @@ function App(props) {
           <Route exact path={["/", "/about"]}>
             <About />
           </Route>
-          <Route exact path="/lend">
+          <Route exact path={["/lend", "/for_lenders"]}>
             <Lend
               name={"PaymentContract"}
               signer={userSigner}
@@ -366,6 +374,16 @@ function App(props) {
               address={address}
               blockExplorer={blockExplorer}
             />
+          </Route>
+          <Route exact path={["/for_businesses"]}>
+            <BusinessPage
+              name={"PaymentContract"}
+              signer={userSigner}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+            />
+            {/* TODO: add bitgo integration to create wallet */}
           </Route>
           <Route exact path={["/preview"]}>
             {/*

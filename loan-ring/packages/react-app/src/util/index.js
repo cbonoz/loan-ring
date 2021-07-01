@@ -3,27 +3,28 @@ faker.seed(124);
 
 export const capitalize = s => {
   if (typeof s !== "string") return "";
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  const res = s.charAt(0).toUpperCase() + s.slice(1);
+  return res.replaceAll("_", " ");
 };
 
-const initCards = () => {
-  const cards = [];
-  for (let i = 0; i < 7; i++) {
-    const createdAt = faker.date.recent();
-    const name = faker.company.companyName();
-    const description = faker.company.catchPhrase();
-    const img = `${faker.image.sports()}?random=${Math.round(Math.random() * 1000)}`;
-    const card = {
-      createdAt,
-      title: name,
-      description,
-      img,
-    };
-    cards.push(card);
-  }
-  console.log(cards);
-  return cards;
-};
+// const initCards = () => {
+//   const cards = [];
+//   for (let i = 0; i < 7; i++) {
+//     const createdAt = faker.date.recent();
+//     const name = faker.company.companyName();
+//     const description = faker.company.catchPhrase();
+//     const img = `${faker.image.sports()}?random=${Math.round(Math.random() * 1000)}`;
+//     const card = {
+//       createdAt,
+//       title: name,
+//       description,
+//       img,
+//     };
+//     cards.push(card);
+//   }
+//   console.log(cards);
+//   return cards;
+// };
 
 export const EXAMPLE_CARDS = [
   {

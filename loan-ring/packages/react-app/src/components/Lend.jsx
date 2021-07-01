@@ -1,5 +1,5 @@
 import { Button, Slider } from "antd";
-import { Layout } from "antd";
+import { Radio, Layout } from "antd";
 
 import React, { useEffect, useState } from "react";
 import { Steps } from "antd";
@@ -21,6 +21,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
     amount: undefined,
     companies: [],
     purpose: "",
+    frequency: "one_time",
   });
   const [deployedAddress, setDeployedAddress] = useState();
   const contracts = useContractLoader(provider);
@@ -66,13 +67,15 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
   const getBody = () => {
     switch (currentStep) {
       case 0:
+        const isRecurring = params.frequency === "recurring";
         return (
           <div>
             <h1>Selected ({companies.length}):</h1>
             {companies.map((x, i) => {
               return <li key={i}>{x.title || JSON.stringify(x)}</li>;
             })}
-            <p>Enter the name for the loan.</p>
+            <br />
+            <h2>Enter the name for the loan.</h2>
             <TextArea
               showCount
               rows={1}
@@ -94,6 +97,19 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
             />
             <br />
             <p>Loan details:</p>
+
+            <Radio.Group onChange={e => setParams({ ...params, frequency: e.target.value })} value={params.frequency}>
+              <Radio value={"one_time"}>One time</Radio>
+              <Radio value={"recurring"}>Recurring</Radio>
+            </Radio.Group>
+
+            {isRecurring && (
+              <div>
+                <p>Select frequency of recurring deposit</p>
+                {/* TODO */}
+              </div>
+            )}
+
             {/* <p>Allowed currencies:</p>
             <Select
               mode="multiple"

@@ -12,6 +12,13 @@ contract LoanRingContract is Ownable {
 
   event SetPurpose(address sender, string purpose);
 
+// https://github.com/NexusMutual/smart-contracts/blob/feature/distributor-relocation/docs/DISTRIBUTOR.md
+  address NX_MASTER = 0x2561D7f2436C121281388ecd54c702e55Aa24043;
+  address NX_FACTORY = 0x2920bad71C8C7cf53f857710345f4cA65F288Ad5;
+
+
+  // https://github.com/liquity/dev/blob/main/packages/lib-ethers/deployments/default/kovan.json
+
   string public purpose;
   int public amount;
   string public supportedTokens;

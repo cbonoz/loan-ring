@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import faker from "faker";
 import { Card, Avatar } from "antd";
 import {
-  CheckCircleTwoTone,
-  DollarOutlined,
-  EllipsisOutlined,
   InfoCircleOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 import ReactPlayer from "react-player";
 
 const { Meta } = Card;
