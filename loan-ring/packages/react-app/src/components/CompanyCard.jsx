@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import faker from "faker";
 import { Card, Avatar } from "antd";
-import {
-  InfoCircleOutlined,
-  PlusCircleOutlined,
-} from "@ant-design/icons";
+import { CheckCircleTwoTone, InfoCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import ReactPlayer from "react-player";
 
@@ -21,7 +18,7 @@ export default function CompanyCard({ data, onClick, isSelected }) {
   const description = (data.categories || []).join(",");
   const avatarUrl = data.thumbURL || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png";
 
-  const ToggleComponent = PlusCircleOutlined; // isSelected ? CheckCircleTwoTone : PlusCircleOutlined;
+  const ToggleComponent = isSelected ? CheckCircleTwoTone : PlusCircleOutlined;
   return (
     <Card
       style={{ cursor: "pointer", margin: "10px" }}

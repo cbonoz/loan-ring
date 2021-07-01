@@ -24,7 +24,6 @@ contract LoanRingContract is Ownable {
   string public supportedTokens;
   address[] public addresses;
 
-
   constructor(string memory _purpose, int _amount, string memory _supportedTokens, address[] memory _addresses) public {
     purpose = _purpose;
     amount = _amount;

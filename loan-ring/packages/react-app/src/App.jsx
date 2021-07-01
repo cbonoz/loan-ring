@@ -9,6 +9,7 @@ import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "
 import About from "./components/About";
 import { Lend } from "./components/Lend";
 import BusinessPage from "./components/BusinessPage";
+import CreateWallet from "./components/CreateWallet";
 
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
@@ -117,7 +118,7 @@ function App(props) {
 
   useEffect(() => {
     // Init bitgo.
-    init();
+    // init();
   }, []);
 
   useEffect(() => {
@@ -326,7 +327,7 @@ function App(props) {
       </div>
     );
   }
-  const ROUTES = ["for_lenders", "for_businesses", "collection", "wallet", "about", "preview"];
+  const ROUTES = ["for_lenders", "for_businesses", "wallet", "about", "preview"];
 
   return (
     <div className="App">
@@ -375,15 +376,21 @@ function App(props) {
               blockExplorer={blockExplorer}
             />
           </Route>
-          <Route exact path={["/for_businesses"]}>
-            <BusinessPage
-              name={"PaymentContract"}
+          <Route exact path={["/wallet"]}>
+            <CreateWallet
               signer={userSigner}
               provider={localProvider}
               address={address}
               blockExplorer={blockExplorer}
             />
-            {/* TODO: add bitgo integration to create wallet */}
+          </Route>
+          <Route exact path={["/for_businesses"]}>
+            <BusinessPage
+              signer={userSigner}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+            />
           </Route>
           <Route exact path={["/preview"]}>
             {/*

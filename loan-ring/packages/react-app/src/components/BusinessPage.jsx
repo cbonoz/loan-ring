@@ -8,25 +8,17 @@ export default function BusinessPage(props) {
   const [loading, setLoading] = useState(false);
   const onCreate = async () => {
     setLoading(true);
-    try {
-      const res = await createWallet();
-      setResult(res);
-    } catch (e) {
-      console.error("error creating wallet", e);
-      alert("Error creating wallet: " + e);
-    }
+    alert("TODO");
+
     setLoading(false);
   };
 
   return (
     <div className="container">
-      <h3>Don't have a wallet? No problem.</h3>
-      <p>Generate a crytocurrency wallet to begin accepting payments/loans in ethereum. </p>
+      <h3>Create a new listing to be discovered for lending opportunities.</h3>
       <Button loading={loading} onClick={onCreate}>
-        Create Wallet
+        Create new listing
       </Button>
-      <hr />
-      {result && JSON.stringify(result)}
     </div>
   );
 }

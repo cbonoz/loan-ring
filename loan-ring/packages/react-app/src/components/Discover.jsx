@@ -29,12 +29,14 @@ function Discover({ companies, setCompanies, onReady }) {
     setCards(items);
   }, [query]);
 
+  const ids = new Set(companies.map(x => x.id));
+
   return (
     <div className="content">
       <h2>
         Discover Projects{" "}
         <Badge count={companies.length} onClick={onReady}>
-          <ShoppingCartOutlined style={{ fontSize: "24px" }} />
+          <ShoppingCartOutlined style={{ fontSize: "24px", cursor: "pointer" }} />
         </Badge>
       </h2>
       <Input
@@ -46,9 +48,10 @@ function Discover({ companies, setCompanies, onReady }) {
 
       <br />
       {cards.map((x, i) => {
+        const isSelected = ids.has(x.id);
         return (
           <span className="cursor-pointer" key={i}>
-            <CompanyCard data={x} onClick={x => setCompanies([...companies, x])} />
+            <CompanyCard isSelected={isSelected} data={x} onClick={x => setCompanies([...companies, x])} />
           </span>
         );
       })}
