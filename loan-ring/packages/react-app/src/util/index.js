@@ -7,6 +7,16 @@ export const capitalize = s => {
   return res.replaceAll("_", " ");
 };
 
+export const displayValue = v => {
+  if (Array.isArray(v)) {
+    return v.join(", ");
+  } else if (typeof v === "object" && v.title) {
+    return v.title;
+  }
+
+  return v;
+};
+
 // const initCards = () => {
 //   const cards = [];
 //   for (let i = 0; i < 7; i++) {

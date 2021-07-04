@@ -9,10 +9,11 @@ export const init = async () => {
   console.dir(result);
 };
 
-export const createWallet = async () => {
+export const createWallet = async passphrase => {
   const params = {
-    passphrase: "replaceme",
-    label: "firstwallet",
+    passphrase,
+    label: "MyBusinessWallet",
+    newFeeAddress: true,
   };
   const { wallet } = await bitgo.coin("eth").wallets().generateWallet(params);
   console.dir(wallet);

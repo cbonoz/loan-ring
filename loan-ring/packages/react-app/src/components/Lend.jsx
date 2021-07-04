@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { Select } from "antd";
 import { Input } from "antd";
 import Discover from "./Discover";
+import { displayValue } from "../util";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -55,7 +56,13 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
       addresses.push(w.address);
     }
 
-    let contract = await factory.deploy(params.purpose, amount, coins, addresses);
+    let contract;
+    try {
+      contract = await factory.deploy(params.purpose, amount, coins, addresses);
+    } catch (e) {
+      alert("Error creating loan: " + e.toString());
+      return;
+    }
 
     console.log("address", contract.address);
     setDeployedAddress(contract.address);
@@ -70,10 +77,11 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
         const isRecurring = params.frequency === "recurring";
         return (
           <div>
-            <h1>Selected ({companies.length}):</h1>
+            <h1>Lending to: ({companies.length}):</h1>
             {companies.map((x, i) => {
               return <li key={i}>{x.title || JSON.stringify(x)}</li>;
             })}
+            <hr />
             <br />
             <h2>Enter the name for the loan.</h2>
             <TextArea
@@ -136,7 +144,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
             {keys.map((k, i) => {
               return (
                 <p key={i}>
-                  <b>{k}</b>: {Array.isArray(params[k]) ? params[k].join(", ") : params[k]}
+                  <b>{k}</b>: {displayValue(params[k])}
                 </p>
               );
             })}
