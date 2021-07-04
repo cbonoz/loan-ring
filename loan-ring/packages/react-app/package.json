@@ -17,6 +17,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@apollo/react-hooks": "^4.0.0",
+    "@connext/vector-modal": "^1.0.6-beta.6",
     "@ramp-network/ramp-instant-sdk": "^2.2.0",
     "@superfluid-finance/js-sdk": "^0.4.3",
     "@testing-library/jest-dom": "^5.11.4",

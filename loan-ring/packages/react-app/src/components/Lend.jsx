@@ -162,7 +162,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
             <h1>Contract Created!</h1>
             <p>
               <b>
-                <Address address={deployedAddress} />
+                <Address address={deployedAddress} blockExplorer={blockExplorer} />
               </b>
             </p>
             <p>
