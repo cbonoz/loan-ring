@@ -24,6 +24,15 @@ Connects to wallet using web3/ethereum.
 
 Uses a smart contract to track and maintain the state of the outstanding loans.
 
+<!--
+Superfluid
+Bitgo
+Infura
+Metamask
+Tellor
+Connext
+-->
+
 Superfluid: Recurring payment support to charities (prize in tandem with Aave)
 UMA LSP contract for risk management of parties that do not return payments
 Aave/Compound: Lending
@@ -46,7 +55,6 @@ REACT_APP_INFURA_ID=YOUR_INFURA_APP_ID // Required for contract funding via conn
 #### Starting the app and local chain.
 
 From the `/loan-ring` folder:
-
 
 <pre>
 yarn
