@@ -9,7 +9,7 @@ export const capitalize = s => {
 
 export const displayValue = v => {
   if (Array.isArray(v)) {
-    return v.join(", ");
+    return v.map(displayValue).join(", ");
   } else if (typeof v === "object" && v.title) {
     return v.title;
   }

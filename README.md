@@ -28,7 +28,7 @@ Superfluid: Recurring payment support to charities (prize in tandem with Aave)
 UMA LSP contract for risk management of parties that do not return payments
 Aave/Compound: Lending
 Liquity: For additional funding and leverage opportunities
-Nexus Mutual - Insure the loan such that if it isn’t repaid, you could get money redemption to cover all/part of the principal.
+Nexus Mutual: Insure the loan such that if it isn’t repaid, you could get money redemption to cover all/part of the principal.
 Pillar - When the loan is received, can have a pillar wallet to accept the payment.
 Infura
 
@@ -39,7 +39,8 @@ Infura
 This app requires a bitgo api key to generate wallets for lending.
 
 <pre>
-REACT_APP_BITGO_TOKEN=YOUR_TOKEN_HERE
+REACT_APP_BITGO_TOKEN=YOUR_TOKEN_HERE // Required for wallet generation using bitgojs.
+REACT_APP_INFURA_ID=YOUR_INFURA_APP_ID // Required for contract funding via connext on kovan or mainnet.
 </pre>
 
 #### Starting the app and local chain.

@@ -11,7 +11,10 @@ import Discover from "./Discover";
 import { displayValue } from "../util";
 import { TARGET_NETWORK } from "../constants";
 import { TELLOR_ADDRESSES } from "../util/tellor";
+import { ConnextModal } from "@connext/vector-modal";
+
 import Address from "./Address";
+import { ETH_TOKEN } from "../util/infura";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -19,7 +22,10 @@ const { Step } = Steps;
 const { Header, Footer, Sider, Content } = Layout;
 
 export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
-  const [tokens, setTokens] = useState([]);
+  // const [tokens, setTokens] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const [currentStep, setCurrentStep] = useState(-1);
   const [params, setParams] = useState({
     amount: undefined,
@@ -38,12 +44,12 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
       }
     } else if (nextStep == 2) {
       await deploy();
-      return;
     }
     setCurrentStep(nextStep);
   };
 
   const deploy = async () => {
+    setLoading(true);
     const { abi, bytecode } = contracts.LoanRingContract;
 
     // Create an instance of a Contract Factory
@@ -59,22 +65,25 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
       addresses.push(w.address);
     }
 
-    const tellorAddress = TELLOR_ADDRESSES.get(TARGET_NETWORK.name, TELLOR_ADDRESSES["kovan"]);
+    const tellorAddress = TELLOR_ADDRESSES[TARGET_NETWORK.name] || TELLOR_ADDRESSES["kovan"];
 
     let contract;
     try {
       contract = await factory.deploy(params.purpose, amount, coins, addresses, tellorAddress);
     } catch (e) {
-      alert("Error creating loan: " + e.toString());
+      alert("Error creating loan: " + JSON.stringify(e));
       return;
+    } finally {
+      setLoading(false);
     }
 
-    console.log("address", contract.address);
+    console.log("deployed contract, address", contract.address);
     setDeployedAddress(contract.address);
-    setCurrentStep(2);
   };
 
   const { companies } = params;
+
+  const infuraUrl = TARGET_NETWORK.rpcUrl;
 
   const getBody = () => {
     switch (currentStep) {
@@ -166,10 +175,8 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               </b>
             </p>
             <p>
-              Loan url:{" "}
-              <a href={payUrl} target="_blank">
-                {payUrl}
-              </a>
+              Fund your contract!
+              <Button onClick={() => setShowModal(true)}>Fund Contract</Button>
             </p>
           </div>
         );
@@ -222,13 +229,24 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
           <Footer>
             <Button onClick={() => adjustStep(-1)}>Back</Button>
             {currentStep != 2 && (
-              <Button onClick={() => adjustStep(1)}>
+              <Button onClick={() => adjustStep(1)} loading={loading}>
                 {currentStep == 2 ? "Done" : currentStep == 1 ? "Deploy" : "Next"}
               </Button>
             )}
           </Footer>
         </Layout>
       </Layout>
+      <ConnextModal
+        showModal={showModal}
+        onClose={() => setShowModal(false)}
+        onReady={params => console.log("MODAL IS READY =======>", params, address)}
+        withdrawalAddress={deployedAddress || address}
+        routerPublicIdentifier="vector7tbbTxQp8ppEQUgPsbGiTrVdapLdU5dH7zTbVuXRf1M4CEBU9Q"
+        depositChainProvider={infuraUrl}
+        injectedProvider={provider}
+        {...ETH_TOKEN}
+        withdrawChainProvider={infuraUrl}
+      />
     </div>
   );
 };
