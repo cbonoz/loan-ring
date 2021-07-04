@@ -9,6 +9,8 @@ import { Select } from "antd";
 import { Input } from "antd";
 import Discover from "./Discover";
 import { displayValue } from "../util";
+import { TARGET_NETWORK } from "../constants";
+import { TELLOR_ADDRESSES } from "../util/tellor";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -56,9 +58,11 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
       addresses.push(w.address);
     }
 
+    const tellorAddress = TELLOR_ADDRESSES.get(TARGET_NETWORK.name, TELLOR_ADDRESSES['kovan'])
+
     let contract;
     try {
-      contract = await factory.deploy(params.purpose, amount, coins, addresses);
+      contract = await factory.deploy(params.purpose, amount, coins, addresses, tellorAddress);
     } catch (e) {
       alert("Error creating loan: " + e.toString());
       return;

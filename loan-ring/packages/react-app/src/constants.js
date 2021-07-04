@@ -152,3 +152,6 @@ export const NETWORK = chainId => {
     }
   }
 };
+
+
+export const TARGET_NETWORK = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)

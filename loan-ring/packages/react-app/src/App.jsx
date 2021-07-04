@@ -11,7 +11,7 @@ import { Lend } from "./components/Lend";
 import BusinessPage from "./components/BusinessPage";
 import CreateWallet from "./components/CreateWallet";
 
-import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
+import { INFURA_ID, NETWORK, NETWORKS, TARGET_NETWORK } from "./constants";
 import { Transactor } from "./helpers";
 import {
   useBalance,
@@ -49,7 +49,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = TARGET_NETWORK;
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
