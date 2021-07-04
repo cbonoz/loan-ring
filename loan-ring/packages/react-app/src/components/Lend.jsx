@@ -11,6 +11,7 @@ import Discover from "./Discover";
 import { displayValue } from "../util";
 import { TARGET_NETWORK } from "../constants";
 import { TELLOR_ADDRESSES } from "../util/tellor";
+import Address from "./Address";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -58,7 +59,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
       addresses.push(w.address);
     }
 
-    const tellorAddress = TELLOR_ADDRESSES.get(TARGET_NETWORK.name, TELLOR_ADDRESSES['kovan'])
+    const tellorAddress = TELLOR_ADDRESSES.get(TARGET_NETWORK.name, TELLOR_ADDRESSES["kovan"]);
 
     let contract;
     try {
@@ -160,7 +161,9 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
           <div>
             <h1>Contract Created!</h1>
             <p>
-              <b>{deployedAddress}</b>
+              <b>
+                <Address address={deployedAddress} />
+              </b>
             </p>
             <p>
               Loan url:{" "}

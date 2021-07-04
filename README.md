@@ -34,7 +34,17 @@ Infura
 
 ### Running the project
 
-From the `loan-ring` folder:
+#### Environment requirements
+
+This app requires a bitgo api key to generate wallets for lending.
+
+<pre>
+REACT_APP_BITGO_TOKEN=YOUR_TOKEN_HERE
+</pre>
+
+#### Starting the app and local chain.
+
+From the `/loan-ring` folder:
 
 <pre>
 yarn
@@ -44,6 +54,8 @@ yarn
 </pre>
 
 Default config will run against localhost for chain.
+
+Note: For Tellor contracts methods to work properly, you must be running the app against either the Kovan or Mainnet networks.
 
 ### Updating the contract
 
