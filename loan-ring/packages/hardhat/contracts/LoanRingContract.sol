@@ -73,7 +73,7 @@ contract LoanRingContract is Ownable {
       payable(addresses[currentIndex]).transfer(msg.value);
       emit LoanRepaid(msg.sender, currentIndex);
     } else {
-      payable(address(this)).transfer(msg.value);
+      payable(address(owner())).transfer(msg.value);
       emit LoanComplete(msg.sender);
     }
 
