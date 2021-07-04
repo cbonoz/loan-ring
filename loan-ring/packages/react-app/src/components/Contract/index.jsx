@@ -63,7 +63,10 @@ export default function Contract({
     contract = customContract;
   }
 
-  const address = contract ? contract.address : "";
+  const query = new URLSearchParams(window.location.search);
+
+  const address = query.get("address") || (contract ? contract.address : "");
+  console.log("address", address);
   const contractIsDeployed = useContractExistsAtAddress(provider, address);
 
   const displayedContractFunctions = useMemo(

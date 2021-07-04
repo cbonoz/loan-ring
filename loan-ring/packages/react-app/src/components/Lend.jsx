@@ -165,13 +165,17 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
           </div>
         );
       case 2:
-        const payUrl = `${window.location.origin}/send?loan=${deployedAddress}`;
+        const payUrl = `${window.location.origin}/preview?address=${deployedAddress}`;
         return (
           <div>
             <h1>Contract Created!</h1>
             <p>
               <b>
                 <Address address={deployedAddress} blockExplorer={blockExplorer} />
+                <br />
+                <a href={payUrl} target="_blank">
+                  {payUrl}
+                </a>
               </b>
             </p>
             <p>
