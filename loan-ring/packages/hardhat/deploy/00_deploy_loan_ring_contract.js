@@ -11,7 +11,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   await deploy("LoanRingContract", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    args: ["Long Ring Contract", amount, "ETH", addresses, TELLOR_KOVAN],
+    args: ["Loan Ring Contract", amount, "ETH", addresses, TELLOR_KOVAN],
     log: true,
   });
 

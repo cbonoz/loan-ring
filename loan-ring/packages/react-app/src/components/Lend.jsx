@@ -8,13 +8,14 @@ import { ethers } from "ethers";
 import { Select } from "antd";
 import { Input } from "antd";
 import Discover from "./Discover";
-import { displayValue } from "../util";
+import { capitalize, displayValue } from "../util";
 import { TARGET_NETWORK } from "../constants";
 import { TELLOR_ADDRESSES } from "../util/tellor";
 import { ConnextModal } from "@connext/vector-modal";
 
 import Address from "./Address";
 import { ETH_TOKEN } from "../util/infura";
+import { createFlow, RATE_MAP } from "../util/superfluid";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -30,11 +31,17 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
   const [params, setParams] = useState({
     amount: undefined,
     companies: [],
-    purpose: "",
+    purpose: "My first loan",
     frequency: "one_time",
+    rate: "day",
   });
   const [deployedAddress, setDeployedAddress] = useState();
   const contracts = useContractLoader(provider);
+
+  const startFlow = async () => {
+    const flowRate = params.amount / RATE_MAP[params.rate];
+    await createFlow(deployedAddress, ETH_TOKEN.depositAssetId, flowRate);
+  };
 
   const adjustStep = async offset => {
     const nextStep = currentStep + offset;
@@ -91,13 +98,13 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
         const isRecurring = params.frequency === "recurring";
         return (
           <div>
-            <h1>Lending to: ({companies.length}):</h1>
+            <hr />
+            <h1>Lending to:</h1>
             {companies.map((x, i) => {
               return <li key={i}>{x.title || JSON.stringify(x)}</li>;
             })}
-            <hr />
             <br />
-            <h2>Enter the name for the loan.</h2>
+            <h3>Enter the name or description for the loan:</h3>
             <TextArea
               showCount
               rows={1}
@@ -110,6 +117,18 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               }}
             />
             <br />
+
+            <br />
+            <p>Select frequency of the loan:</p>
+
+            <Radio.Group onChange={e => setParams({ ...params, frequency: e.target.value })} value={params.frequency}>
+              <Radio value={"one_time"}>One time</Radio>
+              <Radio value={"recurring"}>Recurring</Radio>
+            </Radio.Group>
+
+            <br />
+            <br />
+
             <Input
               suffix={"Ether"}
               size="large"
@@ -117,36 +136,21 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               value={params.amount}
               onChange={e => setParams({ ...params, amount: e.target.value })}
             />
-            <br />
-            <p>Loan details:</p>
-
-            <Radio.Group onChange={e => setParams({ ...params, frequency: e.target.value })} value={params.frequency}>
-              <Radio value={"one_time"}>One time</Radio>
-              <Radio value={"recurring"}>Recurring</Radio>
-            </Radio.Group>
 
             {isRecurring && (
               <div>
-                <p>Select frequency of recurring deposit</p>
-                {/* TODO */}
+                <Radio.Group onChange={e => setParams({ ...params, rate: e.target.value })} value={params.rate}>
+                  <Radio value={"day"}>Day</Radio>
+                  <Radio value={"week"}>Week</Radio>
+                  <Radio value={"month"}>Month</Radio>
+                </Radio.Group>
               </div>
             )}
 
-            {/* <p>Allowed currencies:</p>
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: "100%" }}
-              placeholder="Select allowed currencies"
-              defaultValue={params.coins}
-              onChange={coins => setParams({ ...params, coins })}
-            >
-              {tokens.map(t => {
-                return <Option key={t.symbol}>{t.symbol}</Option>;
-              })}
-            </Select> */}
-
-            {/* <Slider marks={coinMarks} step={10} defaultValue={37} /> */}
+            <p className="padding-small">
+              Don't worry - clicking next won't create any charge yet. When you deploy the contract, you'll have the
+              option to either fund it one time, or set up a recurring loan based on your selection.
+            </p>
           </div>
         );
       case 1:
@@ -156,9 +160,12 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
           <div>
             <h1>Preview Loan:</h1>
             {keys.map((k, i) => {
+              if (params.frequency === "one_time" && k === "rate") {
+                return null; // skip showing rate for one time payments.
+              }
               return (
                 <p key={i}>
-                  <b>{k}</b>: {displayValue(params[k])}
+                  <b>{capitalize(k)}</b>: {displayValue(params[k])}
                 </p>
               );
             })}
@@ -180,7 +187,8 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
             </p>
             <p>
               Fund your contract!
-              <Button onClick={() => setShowModal(true)}>Fund Contract</Button>
+              {params.frequency === "one_time" && <Button onClick={() => setShowModal(true)}>Fund Contract</Button>}
+              {params.frequency === "recurring" && <Button onClick={startFlow}>Start recurring payment</Button>}
             </p>
           </div>
         );
@@ -223,7 +231,6 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
             <Step title="Deploy" description="Initiate loan" />
             <Step title="Complete" description="Loan will be granted to first party" />
           </Steps>
-          ,
         </Sider>
         <Layout>
           <Header>

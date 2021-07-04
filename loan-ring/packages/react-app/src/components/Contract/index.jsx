@@ -55,7 +55,17 @@ export default function Contract({
   blockExplorer,
   chainId,
 }) {
-  const contracts = useContractLoader(provider, { chainId });
+  const loadConfig = { chainId };
+  const query = new URLSearchParams(window.location.search);
+  const customAddr = query.get("address");
+
+  if (customAddr) {
+    const c = {};
+    c[name] = customAddr;
+    loadConfig.customAddresses = c;
+  }
+
+  const contracts = useContractLoader(provider, loadConfig);
   let contract;
   if (!customContract) {
     contract = contracts ? contracts[name] : "";
@@ -63,9 +73,8 @@ export default function Contract({
     contract = customContract;
   }
 
-  const query = new URLSearchParams(window.location.search);
+  const address = customAddr || (contract ? contract.address : "");
 
-  const address = query.get("address") || (contract ? contract.address : "");
   console.log("address", address);
   const contractIsDeployed = useContractExistsAtAddress(provider, address);
 
@@ -112,6 +121,18 @@ export default function Contract({
 
   return (
     <div style={{ margin: "auto", width: "70vw" }}>
+      <p className="padding-small bold">
+        This page is used for inspecting a live LoanRing contract. You can also pay and inspect values on the contract
+        from this page.
+      </p>
+
+      {!customAddr && (
+        <p>
+          You can inspect a previously deployed contract by adding <code>address=XXX`</code> as a query param to your
+          url.
+        </p>
+      )}
+
       <Card
         title={
           <div>

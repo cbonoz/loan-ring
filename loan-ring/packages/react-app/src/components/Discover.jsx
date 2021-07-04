@@ -7,6 +7,7 @@ import { Input } from "antd";
 import CompanyCard from "./CompanyCard";
 import { EXAMPLE_CARDS } from "../util";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Button } from "antd/lib/radio";
 
 function Discover({ companies, setCompanies, onReady }) {
   const [cards, setCards] = useState(EXAMPLE_CARDS);
@@ -38,6 +39,9 @@ function Discover({ companies, setCompanies, onReady }) {
         <Badge count={companies.length} onClick={onReady}>
           <ShoppingCartOutlined style={{ fontSize: "24px", cursor: "pointer" }} />
         </Badge>
+        <Button className="float-right" disabled={!companies.length} onClick={onReady}>
+          Continue
+        </Button>
       </h2>
       <Input
         addonBefore={"Search"}

@@ -43,6 +43,16 @@ export default function CreateWallet(props) {
       </Button>
       <hr />
       {result && JSON.stringify(result)}
+
+
+      <div>
+
+        <p>Cancel an existing stream:</p>
+        <p>Enter the address of the existing contract.</p>
+      </div>
     </div>
+
+
+
   );
 }

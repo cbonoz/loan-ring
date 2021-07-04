@@ -47,14 +47,22 @@ REACT_APP_INFURA_ID=YOUR_INFURA_APP_ID // Required for contract funding via conn
 
 From the `/loan-ring` folder:
 
+
 <pre>
 yarn
 2 terminals: 
 1) yarn chain
-2) yarn deploy; yarn start
+3) yarn deploy; yarn start
 </pre>
 
 Default config will run against localhost for chain.
+
+If running against Kovan, to run deploy you'll need to generate a deployer wallet and fund that account with testnet eth.
+
+<pre>
+yarn run generate 
+</pre>
+Once create, send funds to the newly generated kovan address. Verify via `yarn run account`.
 
 Note: For Tellor contracts methods to work properly, you must be running the app against either the Kovan or Mainnet networks.
 
