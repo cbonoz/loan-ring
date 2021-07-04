@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity >=0.6.0;
 
 import "./Interface/ITellor.sol";
 
@@ -16,7 +16,7 @@ contract UsingTellor {
      * @dev the constructor sets the storage address and owner
      * @param _tellor is the TellorMaster address
      */
-    constructor(address payable _tellor) {
+    constructor(address payable _tellor) public {
         tellor = ITellor(_tellor);
     }
 

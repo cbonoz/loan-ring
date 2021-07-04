@@ -1,6 +1,8 @@
 // deploy/00_deploy_your_contract.js
 const ethers = require("ethers");
 
+const TELLOR_KOVAN = "0x20374E579832859f180536A69093A126Db1c8aE9";
+
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
@@ -9,7 +11,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   await deploy("LoanRingContract", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    args: ["Long Ring Contract", amount, "ETH", addresses],
+    args: ["Long Ring Contract", amount, "ETH", addresses, TELLOR_KOVAN],
     log: true,
   });
 

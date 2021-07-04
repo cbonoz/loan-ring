@@ -3,14 +3,14 @@ pragma solidity >=0.6.0 <0.9.0;
 
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol"; //https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
-// import "./UsingTellor.sol";
+import "./UsingTellor.sol";
 
 
 /*
 This contract represents a loan ring contract/engagement for a single user.
 New contracts should be deployed for each new loan ring.
 */
-contract LoanRingContract is Ownable {
+contract LoanRingContract is Ownable, UsingTellor {
 
   event SetPurpose(address sender, string purpose);
   event LoanRepaid(address payer, uint currentIndex);
@@ -25,14 +25,14 @@ contract LoanRingContract is Ownable {
   address NX_FACTORY = 0x2920bad71C8C7cf53f857710345f4cA65F288Ad5;
 
   // Used for validating eth conversion rates.
-  // function setEthPrice() public {
-  //   bool _didGet;
-  //   uint _timestamp;
-  //   uint _value;
+  function setEthPrice() public {
+    bool _didGet;
+    uint _timestamp;
+    uint _value;
 
-  //   (_didGet, ethPrice, _timestamp) = getCurrentValue(ethRequestId);
-  //   isDisputed = false;
-  // }
+    (_didGet, ethPrice, _timestamp) = getCurrentValue(ethRequestId);
+    isDisputed = false;
+  }
 
   // Dispute the current price
   function disputeValue(uint256 _requestId, uint256 _timestamp) external {
@@ -48,7 +48,7 @@ contract LoanRingContract is Ownable {
   address[] public addresses;
   uint currentIndex;
 
-  constructor(string memory _purpose, uint256 _amount, string memory _supportedTokens, address[] memory _addresses) public {
+  constructor(string memory _purpose, uint256 _amount, string memory _supportedTokens, address[] memory _addresses, address payable _tellorAddress) UsingTellor(_tellorAddress) public {
     require(_addresses.length > 0);
     require(_amount > 0);
 
