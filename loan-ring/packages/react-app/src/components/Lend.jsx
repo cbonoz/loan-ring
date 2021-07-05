@@ -26,8 +26,9 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
   // const [tokens, setTokens] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [currency, setCurrency] = useState("eth (rinkeby)");
 
-  const [currentStep, setCurrentStep] = useState(-1); //-1);
+  const [currentStep, setCurrentStep] = useState(2); //-1);
   const [params, setParams] = useState({
     amount: 0.1,
     companies: [],
@@ -185,9 +186,23 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
                 </a>
               </b>
             </p>
+
             <p>
               <h3>Fund your contract!</h3>
+
+              <br />
+              <p>Payment type</p>
+
               <p className="bold">One time payment</p>
+              <p>
+                Payment options: &nbsp;
+                <Select value={currency} placeholder="Select an asset type" onChange={() => {}}>
+                  <Option value="eth (rinkeby)">ETH (rinkeby)</Option>
+                  <Option disabled value="erc20">
+                    ERC-20
+                  </Option>
+                </Select>
+              </p>
               <Button onClick={() => setShowModal(true)}>Fund Contract</Button>
               <p className="bold">Recurring payment</p>
               <Button onClick={startFlow}>Start recurring payment</Button>
@@ -254,6 +269,7 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
           </Footer>
         </Layout>
       </Layout>
+      {/* withdraw is destination */}
       <ConnextModal
         showModal={showModal}
         onClose={() => setShowModal(false)}
@@ -265,10 +281,11 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
         // depositAssetId={"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"} // likely use injected signer
         // depositChainProvider="https://rpc-mumbai.matic.today"
         // depositChainId={80001}
-        depositAssetId={"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"} // likely use injected signer
-        depositChainProvider="https://rpc-mumbai.matic.today"
-        depositChainId={80001}
+        depositAssetId={"0x0000000000000000000000000000000000000000"}
+        depositChainProvider="https://rinkeby.infura.io/v3/31a0f6f85580403986edab0be5f7673c"
+        depositChainId={4}
         withdrawAssetId={"0x0000000000000000000000000000000000000000"} // likely use injected signer
+        transferAmount={params.amount.toString()}
         withdrawChainProvider={infuraUrl}
         withdrawChainId={42}
         onDepositTxCreated={txHash => {
