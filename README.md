@@ -36,13 +36,13 @@ Uses a smart contract to track and maintain the state of the outstanding loan. A
 
 #### Key technologies used:
 
-* Superfluid: Recurring lending support to companies by setting up a stream to a deployed loan.
-* Connext: Used for funding loans in alternative L1 currencies or chains rather than requiring eth.
-* Nexus Mutual: Insure the loan such that if it isn’t repaid, you could get money redemption to cover all/part of the principal.
-* Infura: Assists with connext loan swaps and querying chain state.
-* Metamask/Consensys: Wallet authentication and contract interactions.
-* Tellor: Accurate / indisputable conversions between ETH and USD during loan repayment.
-* Bitgo: Used for net new Eth Wallet generation for businesses that haven't accepted crypto before.
+- Superfluid: Recurring lending support to companies by setting up a stream to a deployed loan.
+- Connext: Used for funding loans in alternative L1 currencies or chains rather than requiring eth.
+- Nexus Mutual: Insure the loan such that if it isn’t repaid, you could get money redemption to cover all/part of the principal.
+- Infura: Assists with connext loan swaps and querying chain state.
+- Metamask/Consensys: Wallet authentication and contract interactions.
+- Tellor: Accurate / indisputable conversions between ETH and USD during loan repayment.
+- Bitgo: Used for net new Eth Wallet generation for businesses that haven't accepted crypto before.
 
 <!-->
 
@@ -107,6 +107,8 @@ Changes should be present/accessible the next time the contract is deployed.
 <img src='./img/lend.png' width=700/>
 <h1>Loan contract</h1>
 <img src='./img/contract.png' width=700 />
+<h1>One time payment supporting swaps</h1>
+<img src='./img/pay.png' width=700 />
 <h1>Create a loan stream</h1>
 <img src='./img/stream.png' width=700/>
 <h1>Insure existing loans</h1>
