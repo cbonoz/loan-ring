@@ -118,6 +118,7 @@ Changes should be present/accessible the next time the contract is deployed.
 ### Useful links
 * https://github.com/NexusMutual/smart-contracts/blob/feature/distributor-relocation/docs/DISTRIBUTOR.md (solidity)
 * https://github.com/aave/protocol-v2#getting-started (solidity)
+* https://docs.superfluid.finance/superfluid/networks/networks
 * https://github.com/liquity/dev/blob/main/README.md (solidity)
 * https://github.com/BitGo/BitGoJS/tree/master/modules/core
 -->

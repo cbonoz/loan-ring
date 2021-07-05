@@ -11,7 +11,7 @@ export const hex = string => "0x" + Buffer.from(string).toString("hex");
 
 export const displayValue = (k, v) => {
   if (Array.isArray(v)) {
-    return v.map(x => displayValue(k, v)).join(", ");
+    return v.map(x => displayValue(k, x)).join(", ");
   } else if (typeof v === "object" && v.title) {
     return v.title;
   }
