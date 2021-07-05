@@ -28,7 +28,7 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
   const [showModal, setShowModal] = useState(false);
   const [currency, setCurrency] = useState("eth (rinkeby)");
 
-  const [currentStep, setCurrentStep] = useState(0); //-1);
+  const [currentStep, setCurrentStep] = useState(-1); // -1 for Discover page.
   const [params, setParams] = useState({
     amount: "0.1",
     companies: [],

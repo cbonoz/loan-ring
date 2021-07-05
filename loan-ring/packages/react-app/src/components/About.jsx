@@ -9,7 +9,7 @@ const createStep = (title, description) => ({ title, description });
 const STEP_DATA = [
   createStep(
     "Find great charities and companies raising money.",
-    "Select from businesses who needs funds to lend your unused ethereum or other ERC20 tokens.",
+    "Select from businesses who needs funds to lend your inactive ethereum or other ERC20 tokens.",
   ),
   createStep(
     "LoanRing will automatically rotate your funds as the businesses repay them.",
