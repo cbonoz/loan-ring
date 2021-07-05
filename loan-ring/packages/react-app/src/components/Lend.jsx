@@ -14,7 +14,7 @@ import { TELLOR_ADDRESSES } from "../util/tellor";
 import { ConnextModal } from "@connext/vector-modal";
 
 import Address from "./Address";
-import { ETH_TOKEN } from "../util/infura";
+import { depositToken, ETH_TOKEN } from "../util/infura";
 import { createFlow, RATE_MAP } from "../util/superfluid";
 
 const { TextArea } = Input;
@@ -28,7 +28,7 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
   const [showModal, setShowModal] = useState(false);
   const [currency, setCurrency] = useState("eth (rinkeby)");
 
-  const [currentStep, setCurrentStep] = useState(-1); // -1 for Discover page.
+  const [currentStep, setCurrentStep] = useState(2); // -1 for Discover page.
   const [params, setParams] = useState({
     amount: "0.1",
     companies: [],
@@ -274,32 +274,20 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
         showModal={showModal}
         onClose={() => setShowModal(false)}
         onReady={params => console.log("MODAL IS READY =======>", params)}
-        injectedProvider={webProvider}
+        injectedProvider={webProvider} // window.ethereum or RPC provider.
         loginProvider={webProvider}
-        withdrawalAddress={deployedAddress || "0xD7e02fB8A60E78071D69ded9Eb1b89E372EE2292"}
         routerPublicIdentifier="vector7tbbTxQp8ppEQUgPsbGiTrVdapLdU5dH7zTbVuXRf1M4CEBU9Q"
-        // depositAssetId={"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"} // likely use injected signer
-        // depositChainProvider="https://rpc-mumbai.matic.today"
-        // depositChainId={80001}
-        depositAssetId={"0x0000000000000000000000000000000000000000"}
-        depositChainProvider="https://rinkeby.infura.io/v3/31a0f6f85580403986edab0be5f7673c"
-        depositChainId={4}
-        withdrawAssetId={"0x0000000000000000000000000000000000000000"} // likely use injected signer
-        transferAmount={params.amount.toString()}
+        depositAssetId={depositToken.depositAssetId}
+        depositChainProvider={depositToken.depositChainProvider}
+        depositChainId={depositToken.depositChainId}
+        withdrawAssetId={"0x0000000000000000000000000000000000000000"} // eth
+        withdrawalAddress={deployedAddress || "0xD7e02fB8A60E78071D69ded9Eb1b89E372EE2292"}
         withdrawChainProvider={infuraUrl}
         withdrawChainId={42}
+        transferAmount={params.amount.toString()}
         onDepositTxCreated={txHash => {
           console.log("Deposit Tx Created =======>", txHash);
         }}
-        // depositAssetId={"0x0000000000000000000000000000000000000000"}
-        // depositChainProvider="https://rinkeby.infura.io/v3/31a0f6f85580403986edab0be5f7673c"
-        // depositChainId={4}
-
-        // routerPublicIdentifier="vector7tbbTxQp8ppEQUgPsbGiTrVdapLdU5dH7zTbVuXRf1M4CEBU9Q"
-        // withdrawAssetId={"0x0000000000000000000000000000000000000000"}
-        // withdrawChainProvider={infuraUrl}
-        // withdrawChainId={42}
-        //
       />
     </div>
   );
