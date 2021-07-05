@@ -19,7 +19,6 @@ export const createWallet = async passphrase => {
   const params = {
     passphrase,
     label: "MyLoanWallet",
-    newFeeAddress: true,
   };
   const { wallet } = await bitgo.coin("tbtc").wallets().generateWallet(params);
   console.dir(wallet);

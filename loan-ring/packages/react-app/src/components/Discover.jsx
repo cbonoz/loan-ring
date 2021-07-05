@@ -35,7 +35,7 @@ function Discover({ companies, setCompanies, onReady }) {
   return (
     <div className="content">
       <h2>
-        Discover Projects{" "}
+        Discover Companies{" "}
         <Badge count={companies.length} onClick={onReady}>
           <ShoppingCartOutlined style={{ fontSize: "24px", cursor: "pointer" }} />
         </Badge>

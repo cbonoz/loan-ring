@@ -22,12 +22,12 @@ const { Option } = Select;
 const { Step } = Steps;
 const { Header, Footer, Sider, Content } = Layout;
 
-export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
+export const Lend = ({ name, signer, injectedProvider, provider, address, blockExplorer }) => {
   // const [tokens, setTokens] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const [currentStep, setCurrentStep] = useState(2); //-1);
+  const [currentStep, setCurrentStep] = useState(-1); //-1);
   const [params, setParams] = useState({
     amount: 0.1,
     companies: [],
@@ -165,7 +165,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               }
               return (
                 <p key={i}>
-                  <b>{capitalize(k)}</b>: {displayValue(params[k])}
+                  <b>{capitalize(k)}</b>: {displayValue(k, params[k])}
                 </p>
               );
             })}
@@ -186,9 +186,11 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
               </b>
             </p>
             <p>
-              Fund your contract!
-              {params.frequency === "one_time" && <Button onClick={() => setShowModal(true)}>Fund Contract</Button>}
-              {params.frequency === "recurring" && <Button onClick={startFlow}>Start recurring payment</Button>}
+              <h3>Fund your contract!</h3>
+              <p className="bold">One time payment</p>
+              <Button onClick={() => setShowModal(true)}>Fund Contract</Button>
+              <p className="bold">Recurring payment</p>
+              <Button onClick={startFlow}>Start recurring payment</Button>
             </p>
           </div>
         );
@@ -218,6 +220,8 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
       </div>
     );
   }
+
+  const webProvider = window.ethereum || provider || injectedProvider;
 
   return (
     <div className="container">
@@ -254,16 +258,31 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
         showModal={showModal}
         onClose={() => setShowModal(false)}
         onReady={params => console.log("MODAL IS READY =======>", params)}
-        injectedProvider={window.ethereum}
-        loginProvider={window.ethereum}
+        injectedProvider={webProvider}
+        loginProvider={webProvider}
         withdrawalAddress={deployedAddress || "0xD7e02fB8A60E78071D69ded9Eb1b89E372EE2292"}
         routerPublicIdentifier="vector7tbbTxQp8ppEQUgPsbGiTrVdapLdU5dH7zTbVuXRf1M4CEBU9Q"
-        withdrawAssetId={"0x0000000000000000000000000000000000000000"}
-        withdrawChainProvider={infuraUrl}
-        withdrawChainId={42}
+        // depositAssetId={"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"} // likely use injected signer
+        // depositChainProvider="https://rpc-mumbai.matic.today"
+        // depositChainId={80001}
         depositAssetId={"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"} // likely use injected signer
         depositChainProvider="https://rpc-mumbai.matic.today"
         depositChainId={80001}
+        withdrawAssetId={"0x0000000000000000000000000000000000000000"} // likely use injected signer
+        withdrawChainProvider={infuraUrl}
+        withdrawChainId={42}
+        onDepositTxCreated={txHash => {
+          console.log("Deposit Tx Created =======>", txHash);
+        }}
+        // depositAssetId={"0x0000000000000000000000000000000000000000"}
+        // depositChainProvider="https://rinkeby.infura.io/v3/31a0f6f85580403986edab0be5f7673c"
+        // depositChainId={4}
+
+        // routerPublicIdentifier="vector7tbbTxQp8ppEQUgPsbGiTrVdapLdU5dH7zTbVuXRf1M4CEBU9Q"
+        // withdrawAssetId={"0x0000000000000000000000000000000000000000"}
+        // withdrawChainProvider={infuraUrl}
+        // withdrawChainId={42}
+        //
       />
     </div>
   );

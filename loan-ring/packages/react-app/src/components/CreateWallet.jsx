@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { Button, Input } from "antd";
 import { createWallet } from "../util/bgo";
-import CancelStream from "./CancelStream";
 
 export default function CreateWallet(props) {
   const [result, setResult] = useState();
@@ -44,8 +43,6 @@ export default function CreateWallet(props) {
       </Button>
       <hr />
       {result && JSON.stringify(result)}
-
-      {true && <CancelStream />}
     </div>
   );
 }

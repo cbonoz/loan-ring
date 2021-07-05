@@ -27,6 +27,8 @@ import { capitalize } from "./util";
 // import Hints from "./Hints";
 import { Hints } from "./views";
 import { init } from "./util/bgo";
+import InsureLoan from "./components/InsureLoan";
+import CancelStream from "./components/CancelStream";
 
 const { ethers } = require("ethers");
 /*
@@ -327,7 +329,7 @@ function App(props) {
       </div>
     );
   }
-  const ROUTES = ["lenders", "businesses", "wallet", "about", "preview"];
+  const ROUTES = ["for_lenders", "for_businesses", "insure", "wallet", "about", "preview"];
 
   return (
     <div className="App">
@@ -367,10 +369,11 @@ function App(props) {
           <Route exact path={["/", "/about"]}>
             <About />
           </Route>
-          <Route exact path={["/lend", "/for_lenders", "lenders"]}>
+          <Route exact path={["/lend", "/for_lenders"]}>
             <Lend
               name={"PaymentContract"}
               signer={userSigner}
+              injectedProvider={injectedProvider}
               provider={localProvider}
               address={address}
               blockExplorer={blockExplorer}
@@ -384,7 +387,10 @@ function App(props) {
               blockExplorer={blockExplorer}
             />
           </Route>
-          <Route exact path={["/for_businesses", "businesses"]}>
+          <Route exact path={["/insure"]}>
+            <InsureLoan signer={userSigner} provider={localProvider} address={address} blockExplorer={blockExplorer} />
+          </Route>
+          <Route exact path={["/for_businesses"]}>
             <BusinessPage
               signer={userSigner}
               provider={localProvider}
@@ -406,6 +412,9 @@ function App(props) {
               address={address}
               blockExplorer={blockExplorer}
             />
+          </Route>
+          <Route path="/cancel">
+            <CancelStream />
           </Route>
           <Route path="/hints">
             <Hints
