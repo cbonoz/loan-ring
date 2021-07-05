@@ -28,9 +28,9 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
   const [showModal, setShowModal] = useState(false);
   const [currency, setCurrency] = useState("eth (rinkeby)");
 
-  const [currentStep, setCurrentStep] = useState(2); //-1);
+  const [currentStep, setCurrentStep] = useState(0); //-1);
   const [params, setParams] = useState({
-    amount: 0.1,
+    amount: "0.1",
     companies: [],
     purpose: "My first loan",
     frequency: "one_time",
@@ -62,21 +62,21 @@ export const Lend = ({ name, signer, injectedProvider, provider, address, blockE
 
     // Create an instance of a Contract Factory
     let factory = new ethers.ContractFactory(abi, bytecode, signer);
-
-    const amount = ethers.utils.parseEther(params.amount);
-
-    const coins = (params.coins || ["ETH"]).join(",");
-
-    const addresses = [];
-    for (let i in params.companies) {
-      const w = ethers.Wallet.createRandom();
-      addresses.push(w.address);
-    }
-
-    const tellorAddress = TELLOR_ADDRESSES[TARGET_NETWORK.name] || TELLOR_ADDRESSES["kovan"];
-
     let contract;
+
     try {
+      const amount = ethers.utils.parseEther(params.amount);
+
+      const coins = (params.coins || ["ETH"]).join(",");
+
+      const addresses = [];
+      for (let i in params.companies) {
+        const w = ethers.Wallet.createRandom();
+        addresses.push(w.address);
+      }
+
+      const tellorAddress = TELLOR_ADDRESSES[TARGET_NETWORK.name] || TELLOR_ADDRESSES["kovan"];
+
       contract = await factory.deploy(params.purpose, amount, coins, addresses, tellorAddress);
     } catch (e) {
       alert("Error creating loan: " + JSON.stringify(e));
