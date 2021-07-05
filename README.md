@@ -99,19 +99,19 @@ Changes should be present/accessible the next time the contract is deployed.
 ### Screenshots
 
 <p align='center'>
-<h1>About</h1>
+<h2>About</h2>
 <img src='./img/about.png' width=700//>
-<h1>Discover page</h1>
+<h2>Discover page</h2>
 <img src='./img/home.png' width=700/>
-<h1>Create a new loan</h1>
+<h2>Create a new loan</h2>
 <img src='./img/lend.png' width=700/>
-<h1>Loan contract</h1>
+<h2>Loan contract</h2>
 <img src='./img/contract.png' width=700 />
-<h1>One time payment supporting swaps</h1>
+<h2>Complete loan payment using swaps</h2>
 <img src='./img/pay.png' width=700 />
-<h1>Create a loan stream</h1>
+<h2>Create a loan stream</h2>
 <img src='./img/stream.png' width=700/>
-<h1>Insure existing loans</h1>
+<h2>Insure existing loans</h2>
 <img src='./img/insure.png' width=700/>
 
 </p>
