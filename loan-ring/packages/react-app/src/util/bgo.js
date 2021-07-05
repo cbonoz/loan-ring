@@ -1,9 +1,9 @@
 // https://github.com/BitGo/BitGoJS/tree/master/modules/core
 import { BitGo } from "bitgo";
 
-const accessToken = "b60a69f62e7004e493319f07da7238199d6a436b1158e676ac5427834ae0e14a"; // process.env.REACT_APP_BITGO_TOKEN || "";
+const accessToken = process.env.REACT_APP_BITGO_TOKEN || "";
 console.log("accessToken", accessToken);
-const bitgo = new BitGo({ accessToken });
+const bitgo = new BitGo({ accessToken, env: "test" });
 
 export const init = async () => {
   const result = await bitgo.session();

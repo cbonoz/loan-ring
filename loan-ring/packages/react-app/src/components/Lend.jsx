@@ -27,20 +27,20 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const [currentStep, setCurrentStep] = useState(-1);
+  const [currentStep, setCurrentStep] = useState(2); //-1);
   const [params, setParams] = useState({
-    amount: undefined,
+    amount: 0.1,
     companies: [],
     purpose: "My first loan",
     frequency: "one_time",
     rate: "day",
   });
-  const [deployedAddress, setDeployedAddress] = useState();
+  const [deployedAddress, setDeployedAddress] = useState("0xa0095D2bC3Fbd153d64c9B9df5D49827511D5c3d");
   const contracts = useContractLoader(provider);
 
   const startFlow = async () => {
-    const flowRate = ethers.utils.parseEther(params.amount) / RATE_MAP[params.rate];
-    await createFlow(deployedAddress, ETH_TOKEN.depositAssetId, flowRate);
+    const flowRate = parseInt(ethers.utils.parseEther(params.amount.toString()) / RATE_MAP[params.rate]);
+    await createFlow(deployedAddress, "0xdd5462a7db7856c9128bc77bd65c2919ee23c6e1", flowRate);
   };
 
   const adjustStep = async offset => {

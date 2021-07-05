@@ -26,8 +26,6 @@ export default function CreateWallet(props) {
     }
   };
 
-
-
   return (
     <div className="container">
       <h3>Don't have a wallet? No problem.</h3>
@@ -47,7 +45,7 @@ export default function CreateWallet(props) {
       <hr />
       {result && JSON.stringify(result)}
 
-      {false && <CancelStream/>}
+      {true && <CancelStream />}
     </div>
   );
 }

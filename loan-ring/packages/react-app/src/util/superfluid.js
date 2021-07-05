@@ -10,10 +10,12 @@ export const RATE_MAP = {
   month: SECONDS_PER_DAY * 30,
 };
 
+const KOVAN_ETHX = "0xdd5462a7db7856c9128bc77bd65c2919ee23c6e1";
+
 export const createFlow = async (recipient, token, flowRate) => {
-  token = token || "0x8ae68021f6170e5a766be613cea0d75236ecca9a";
+  token = token || KOVAN_ETHX;
   flowRate = flowRate || 385802469135802;
-  console.log('createFlow', recipient, token, flowRate)
+  console.log("createFlow", recipient, token, flowRate);
   const walletAddress = await window.ethereum.request({
     method: "eth_requestAccounts",
     params: [
@@ -24,7 +26,7 @@ export const createFlow = async (recipient, token, flowRate) => {
   });
   const sf = new SuperfluidSDK.Framework({
     ethers: new Web3Provider(window.ethereum),
-    tokens: ["eth"],
+    tokens: ["ETHx"],
   });
   await sf.initialize();
   const userAccount = sf.user({
@@ -35,6 +37,32 @@ export const createFlow = async (recipient, token, flowRate) => {
   await userAccount.flow({
     recipient, // ex: "0xA8f3447922d786045CB582B0C825723B744a54df", recipient eth address
     flowRate,
+  });
+
+  const details = await userAccount.details();
+  console.log(details);
+  return details;
+};
+
+export const getDetails = async token => {
+  token = token || KOVAN_ETHX;
+  const walletAddress = await window.ethereum.request({
+    method: "eth_requestAccounts",
+    params: [
+      {
+        eth_accounts: {},
+      },
+    ],
+  });
+  const sf = new SuperfluidSDK.Framework({
+    ethers: new Web3Provider(window.ethereum),
+    tokens: ["ETHx"],
+  });
+  await sf.initialize();
+  console.log("addr", walletAddress[0]);
+  const userAccount = sf.user({
+    address: walletAddress[0],
+    token,
   });
 
   const details = await userAccount.details();
@@ -53,12 +81,12 @@ export const cancelFlow = async recipient => {
   });
   const sf = new SuperfluidSDK.Framework({
     ethers: new Web3Provider(window.ethereum),
-    tokens: ["eth"],
+    tokens: ["ETHx"],
   });
   await sf.initialize();
   const userAccount = sf.user({
     address: walletAddress[0],
-    token: ETH_TOKEN.depositAssetId,
+    token: KOVAN_ETHX,
   });
 
   await userAccount.flow({
