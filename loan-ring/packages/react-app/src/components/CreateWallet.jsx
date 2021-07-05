@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Button, Input } from "antd";
 import { createWallet } from "../util/bgo";
+import CancelStream from "./CancelStream";
 
 export default function CreateWallet(props) {
   const [result, setResult] = useState();
@@ -25,6 +26,8 @@ export default function CreateWallet(props) {
     }
   };
 
+
+
   return (
     <div className="container">
       <h3>Don't have a wallet? No problem.</h3>
@@ -44,15 +47,7 @@ export default function CreateWallet(props) {
       <hr />
       {result && JSON.stringify(result)}
 
-
-      <div>
-
-        <p>Cancel an existing stream:</p>
-        <p>Enter the address of the existing contract.</p>
-      </div>
+      {false && <CancelStream/>}
     </div>
-
-
-
   );
 }
