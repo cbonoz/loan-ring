@@ -89,8 +89,12 @@ Changes should be present/accessible the next time the contract is deployed.
 * https://github.com/aave/protocol-v2#getting-started (solidity)
 * https://github.com/liquity/dev/blob/main/README.md (solidity)
 * https://github.com/BitGo/BitGoJS/tree/master/modules/core
-
-
-
-
 -->
+
+
+### Demo flow
+* Lenders
+* Show one time and recurring
+* Recurring payment
+* Show stream created to organization
+* 

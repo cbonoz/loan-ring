@@ -229,7 +229,10 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
           <Steps direction="vertical" current={currentStep}>
             <Step title="Create Loan" description="How much do you want to lend?" />
             <Step title="Deploy" description="Initiate loan" />
-            <Step title="Complete" description="Loan will be granted to first party" />
+            <Step
+              title="Fund contract"
+              description="Fund the contract and the first company will receive the payment based on their uploaded address."
+            />
           </Steps>
         </Sider>
         <Layout>

@@ -327,7 +327,7 @@ function App(props) {
       </div>
     );
   }
-  const ROUTES = ["for_lenders", "for_businesses", "wallet", "about", "preview"];
+  const ROUTES = ["lenders", "businesses", "wallet", "about", "preview"];
 
   return (
     <div className="App">
@@ -367,7 +367,7 @@ function App(props) {
           <Route exact path={["/", "/about"]}>
             <About />
           </Route>
-          <Route exact path={["/lend", "/for_lenders"]}>
+          <Route exact path={["/lend", "/for_lenders", "lenders"]}>
             <Lend
               name={"PaymentContract"}
               signer={userSigner}
@@ -384,7 +384,7 @@ function App(props) {
               blockExplorer={blockExplorer}
             />
           </Route>
-          <Route exact path={["/for_businesses"]}>
+          <Route exact path={["/for_businesses", "businesses"]}>
             <BusinessPage
               signer={userSigner}
               provider={localProvider}
