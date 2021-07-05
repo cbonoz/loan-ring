@@ -17,7 +17,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@apollo/react-hooks": "^4.0.0",
-    "@connext/vector-modal": "^1.0.6-beta.6",
+    "@connext/vector-modal": "1.0.6-beta.5",
     "@ramp-network/ramp-instant-sdk": "^2.2.0",
     "@superfluid-finance/js-sdk": "^0.4.3",
     "@testing-library/jest-dom": "^5.11.4",
@@ -38,6 +38,7 @@
     "dotenv": "^8.2.0",
     "eth-hooks": "^1.1.2",
     "ethers": "^5.3.0",
+    "etherspot": "^1.12.0",
     "faker": "^5.5.3",
     "fuse.js": "^6.4.6",
     "graphiql": "^1.0.5",

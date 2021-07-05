@@ -39,7 +39,7 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
   const contracts = useContractLoader(provider);
 
   const startFlow = async () => {
-    const flowRate = params.amount / RATE_MAP[params.rate];
+    const flowRate = ethers.utils.parseEther(params.amount) / RATE_MAP[params.rate];
     await createFlow(deployedAddress, ETH_TOKEN.depositAssetId, flowRate);
   };
 
@@ -250,13 +250,17 @@ export const Lend = ({ name, signer, provider, address, blockExplorer }) => {
       <ConnextModal
         showModal={showModal}
         onClose={() => setShowModal(false)}
-        onReady={params => console.log("MODAL IS READY =======>", params, address)}
-        withdrawalAddress={deployedAddress || address}
+        onReady={params => console.log("MODAL IS READY =======>", params)}
+        injectedProvider={window.ethereum}
+        loginProvider={window.ethereum}
+        withdrawalAddress={deployedAddress || "0xD7e02fB8A60E78071D69ded9Eb1b89E372EE2292"}
         routerPublicIdentifier="vector7tbbTxQp8ppEQUgPsbGiTrVdapLdU5dH7zTbVuXRf1M4CEBU9Q"
-        depositChainProvider={infuraUrl}
-        injectedProvider={provider}
-        {...ETH_TOKEN}
+        withdrawAssetId={"0x0000000000000000000000000000000000000000"}
         withdrawChainProvider={infuraUrl}
+        withdrawChainId={42}
+        depositAssetId={"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"} // likely use injected signer
+        depositChainProvider="https://rpc-mumbai.matic.today"
+        depositChainId={80001}
       />
     </div>
   );

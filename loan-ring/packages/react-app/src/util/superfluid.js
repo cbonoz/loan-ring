@@ -13,6 +13,7 @@ export const RATE_MAP = {
 export const createFlow = async (recipient, token, flowRate) => {
   token = token || "0x8ae68021f6170e5a766be613cea0d75236ecca9a";
   flowRate = flowRate || 385802469135802;
+  console.log('createFlow', recipient, token, flowRate)
   const walletAddress = await window.ethereum.request({
     method: "eth_requestAccounts",
     params: [
